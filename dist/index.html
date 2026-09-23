@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff8f2">
+    <meta name="description" content="FloatingTimer 悬浮时钟支持中心：倒计时、提醒、画中画和隐私说明。">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="styles.css?v=20260923">
+    <title>FloatingTimer 支持中心</title>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="site-header shell">
+      <a class="brand" href="#top" aria-label="FloatingTimer 支持中心">
+        <img src="icon.png" alt="" width="44" height="44">
+        <span>
+          <strong>FloatingTimer</strong>
+          <small data-i18n="brandSupport">支持中心</small>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="页面导航">
+        <a href="#quick-start" data-i18n="navStart">开始使用</a>
+        <a href="#faq" data-i18n="navFaq">常见问题</a>
+        <a href="#contact" data-i18n="navContact">联系支持</a>
+        <div class="language-toggle" aria-label="Language switcher">
+          <button type="button" data-language="zh" aria-pressed="true">中文</button>
+          <button type="button" data-language="en" aria-pressed="false">EN</button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top" class="shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="eyebrow">FLOATINGTIMER · SUPPORT</p>
+          <h1 id="hero-title" data-i18n="heroTitle">把重要时刻，留在眼前。</h1>
+          <p class="hero-lead" data-i18n="heroLead">为开售时间、演出和其他重要活动提供清晰倒计时，让你在使用其他 App 时也能随时看到进度。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#quick-start" data-i18n="heroPrimary">开始使用</a>
+            <a class="button secondary" href="mailto:rwoody@126.com" data-i18n="heroSecondary">联系支持</a>
+          </div>
+          <p class="hero-meta"><span data-i18n="heroMeta">iOS 17 及以上 · 中文 / English</span><span class="meta-dot" aria-hidden="true"></span><span data-i18n="heroMetaPrivacy">数据默认保存在本机</span></p>
+        </div>
+        <div class="hero-panel" aria-label="FloatingTimer 功能概览">
+          <div class="panel-topline"><span class="live-dot" aria-hidden="true"></span><span data-i18n="panelStatus">悬浮计时已准备</span></div>
+          <div class="panel-time">00:12:48</div>
+          <div class="panel-label" data-i18n="panelLabel">距离活动开售</div>
+          <div class="panel-divider"></div>
+          <div class="panel-row"><span data-i18n="panelEvent">活动</span><strong data-i18n="panelEventName">下一场重要时刻</strong></div>
+          <div class="panel-row"><span data-i18n="panelDisplay">显示方式</span><strong data-i18n="panelDisplayValue">画中画 · 倒计时</strong></div>
+          <div class="panel-glow" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section id="quick-start" class="section-block" aria-labelledby="quick-start-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="quickEyebrow">QUICK START</p>
+          <h2 id="quick-start-title" data-i18n="quickTitle">三步开始使用</h2>
+          <p data-i18n="quickLead">把需要关注的时间交给 FloatingTimer，剩下的时间安心做自己的事。</p>
+        </div>
+        <div class="step-grid">
+          <article class="step-card">
+            <span class="step-number">01</span>
+            <h3 data-i18n="step1Title">添加活动</h3>
+            <p data-i18n="step1Body">填写活动名称、平台和开售时间。也可以保存活动链接、场馆和备注。</p>
+          </article>
+          <article class="step-card">
+            <span class="step-number">02</span>
+            <h3 data-i18n="step2Title">选好提醒</h3>
+            <p data-i18n="step2Body">保存时选择提前 10 分钟、3 分钟或 30 秒提醒，并允许系统发送通知。</p>
+          </article>
+          <article class="step-card accent-card">
+            <span class="step-number">03</span>
+            <h3 data-i18n="step3Title">开启悬浮</h3>
+            <p data-i18n="step3Body">点击“开启悬浮时钟”，倒计时会以画中画显示在其他 App 上方。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="feature-strip" aria-label="FloatingTimer 功能">
+        <div class="feature-item"><span class="feature-icon">◷</span><span data-i18n="featureClock">当前时间与活动倒计时</span></div>
+        <div class="feature-item"><span class="feature-icon">⌁</span><span data-i18n="featurePip">画中画悬浮显示</span></div>
+        <div class="feature-item"><span class="feature-icon">♢</span><span data-i18n="featureThemes">暖橙、彩糖和猫咪皮肤</span></div>
+        <div class="feature-item"><span class="feature-icon">⌂</span><span data-i18n="featureLocal">本机保存，无需账号</span></div>
+      </section>
+
+      <section id="faq" class="section-block faq-section" aria-labelledby="faq-title">
+        <div class="section-heading compact">
+          <p class="eyebrow" data-i18n="faqEyebrow">NEED A HAND?</p>
+          <h2 id="faq-title" data-i18n="faqTitle">常见问题</h2>
+        </div>
+        <div class="faq-list">
+          <details open>
+            <summary data-i18n="faq1Question">如何开启悬浮时钟？</summary>
+            <div class="faq-answer" data-i18n="faq1Answer" data-i18n-mode="html">在首页点击“开启悬浮时钟”。如果一小时内有即将开始的活动，应用会优先显示该活动倒计时；否则显示当前设备时间。</div>
+          </details>
+          <details>
+            <summary data-i18n="faq2Question">活动倒计时与我看到的时间不一致怎么办？</summary>
+            <div class="faq-answer" data-i18n="faq2Answer" data-i18n-mode="html">FloatingTimer 按设备当前时间和时区计算。请先确认活动的开售时间与设备“日期与时间”设置；保存活动时也可以查看当前时区。</div>
+          </details>
+          <details>
+            <summary data-i18n="faq3Question">为什么没有收到提醒？</summary>
+            <div class="faq-answer" data-i18n="faq3Answer" data-i18n-mode="html">请在“我的 &gt; 通知权限”中允许通知，并确认活动保存时勾选了提醒时间。提醒是本地通知，只会在这台设备上生效。</div>
+          </details>
+          <details>
+            <summary data-i18n="faq4Question">活动链接会做什么？</summary>
+            <div class="faq-answer" data-i18n="faq4Answer" data-i18n-mode="html">你可以保存大麦、猫眼、票星球或其他平台的 <code>http</code>/<code>https</code> 链接。开启活动倒计时后，应用会按你的操作打开对应 App 或网页；不会读取页面内容，也不会自动购票。</div>
+          </details>
+          <details>
+            <summary data-i18n="faq5Question">我的数据会上传吗？</summary>
+            <div class="faq-answer" data-i18n="faq5Answer" data-i18n-mode="html">活动、提醒设置和皮肤偏好默认保存在本机。应用不要求账号、不展示广告、不进行跨 App 跟踪；它只会在你主动操作时打开你填写的活动链接。</div>
+          </details>
+          <details>
+            <summary data-i18n="faq6Question">画中画不可用怎么办？</summary>
+            <div class="faq-answer" data-i18n="faq6Answer" data-i18n-mode="html">请确认设备和系统支持画中画，并关闭可能占用画中画的其他视频或悬浮窗口后重试。若仍然无法使用，请把设备型号、iOS 版本和出现的提示发给我们。</div>
+          </details>
+        </div>
+      </section>
+
+      <section id="privacy" class="privacy-card" aria-labelledby="privacy-title">
+        <div>
+          <p class="eyebrow" data-i18n="privacyEyebrow">PRIVACY</p>
+          <h2 id="privacy-title" data-i18n="privacyTitle">简单、明确的隐私边界</h2>
+        </div>
+        <div class="privacy-copy">
+          <p data-i18n="privacyBody">FloatingTimer 只为倒计时和提醒保存完成这件事所需要的信息。活动内容、通知安排和外观偏好默认留在设备上；活动链接只有在你主动使用相关功能时才会被打开。</p>
+          <p class="privacy-note" data-i18n="privacyNote">应用不会自动操作购票流程。</p>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-section" aria-labelledby="contact-title">
+        <div class="contact-card">
+          <div>
+            <p class="eyebrow" data-i18n="contactEyebrow">CONTACT</p>
+            <h2 id="contact-title" data-i18n="contactTitle">遇到问题？我们来帮你。</h2>
+            <p data-i18n="contactLead">请告诉我们设备型号、iOS 版本、问题发生时间和复现步骤；如果方便，也可以附上截图。</p>
+          </div>
+          <a class="email-link" href="mailto:rwoody@126.com">rwoody@126.com <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="response-note" data-i18n="responseNote">通常会在 2 个工作日内回复。</p>
+      </section>
+    </main>
+
+    <footer class="site-footer shell">
+      <span>© 2026 RWoody Labs</span>
+      <span data-i18n="footerCopy">FloatingTimer 支持中心</span>
+    </footer>
+
+    <script src="script.js?v=20260923"></script>
+  </body>
+</html>
