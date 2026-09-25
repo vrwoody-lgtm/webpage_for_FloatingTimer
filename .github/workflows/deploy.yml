@@ -1,0 +1,180 @@
+name: Deploy FloatingTimer support page
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: floating-timer-support-production
+  cancel-in-progress: false
+
+env:
+  DEPLOY_DIR: /var/www/support-site/floating-timer
+
+jobs:
+  deploy:
+    name: Deploy to Tokyo Tencent server
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: https://support.rwoodylabs.org/floating-timer/
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate static site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            docs/index.html
+            docs/support.html
+            docs/styles.css
+            docs/script.js
+            docs/icon.png
+          )
+
+          for file in "${required_files[@]}"; do
+            test -s "$file"
+          done
+
+          node --check docs/script.js
+
+      - name: Package static site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          tar -czf "$RUNNER_TEMP/floating-timer-site-${GITHUB_SHA}.tar.gz" -C docs .
+
+      - name: Configure SSH
+        shell: bash
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SERVER_SSH_KNOWN_HOSTS: ${{ secrets.SERVER_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+
+          : "${SERVER_HOST:?Repository secret SERVER_HOST is required}"
+          : "${SERVER_USER:?Repository secret SERVER_USER is required}"
+          : "${SERVER_SSH_KEY:?Repository secret SERVER_SSH_KEY is required}"
+          : "${SERVER_SSH_KNOWN_HOSTS:?Repository secret SERVER_SSH_KNOWN_HOSTS is required}"
+
+          printf '%s\n' "$SERVER_SSH_KEY" > "$RUNNER_TEMP/deploy_key"
+          printf '%s\n' "$SERVER_SSH_KNOWN_HOSTS" > "$RUNNER_TEMP/known_hosts"
+          chmod 600 "$RUNNER_TEMP/deploy_key" "$RUNNER_TEMP/known_hosts"
+
+      - name: Upload and publish
+        shell: bash
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          set -euo pipefail
+
+          ssh_options=(
+            -i "$RUNNER_TEMP/deploy_key"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o "UserKnownHostsFile=$RUNNER_TEMP/known_hosts"
+          )
+          archive_name="floating-timer-site-${GITHUB_SHA}.tar.gz"
+
+          scp "${ssh_options[@]}" \
+            "$RUNNER_TEMP/$archive_name" \
+            "${SERVER_USER}@${SERVER_HOST}:/tmp/$archive_name"
+
+          ssh "${ssh_options[@]}" "${SERVER_USER}@${SERVER_HOST}" \
+            "bash -s -- '$DEPLOY_DIR' '$GITHUB_SHA'" <<'REMOTE'
+          set -euo pipefail
+
+          deploy_dir="$1"
+          release_id="$2"
+          archive="/tmp/floating-timer-site-${release_id}.tar.gz"
+          managed_files=(
+            index.html
+            support.html
+            styles.css
+            script.js
+            icon.png
+          )
+
+          parent_dir="$(dirname "$deploy_dir")"
+          test -d "$parent_dir"
+          test -w "$parent_dir"
+          test -s "$archive"
+          mkdir -p "$deploy_dir"
+          test -w "$deploy_dir"
+
+          staging_dir="$(mktemp -d "${parent_dir}/.floating-timer-staging.XXXXXX")"
+          cleanup() {
+            rm -rf -- "$staging_dir"
+            rm -f -- "$archive"
+          }
+          trap cleanup EXIT
+
+          tar -xzf "$archive" -C "$staging_dir"
+
+          for file in "${managed_files[@]}"; do
+            test -s "$staging_dir/$file"
+            chmod 0644 "$staging_dir/$file"
+          done
+
+          for file in "${managed_files[@]}"; do
+            mv -f -- "$staging_dir/$file" "$deploy_dir/$file"
+          done
+          REMOTE
+
+      - name: Verify production page
+        shell: bash
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          set -euo pipefail
+
+          ssh_options=(
+            -i "$RUNNER_TEMP/deploy_key"
+            -o BatchMode=yes
+            -o IdentitiesOnly=yes
+            -o StrictHostKeyChecking=yes
+            -o "UserKnownHostsFile=$RUNNER_TEMP/known_hosts"
+          )
+
+          ssh "${ssh_options[@]}" "${SERVER_USER}@${SERVER_HOST}" \
+            "bash -s -- '$SERVER_HOST'" <<'REMOTE'
+          set -euo pipefail
+
+          server_host="$1"
+          site_url="https://support.rwoodylabs.org/floating-timer/"
+          curl_options=(
+            --fail
+            --silent
+            --show-error
+            --location
+            --retry 5
+            --retry-delay 2
+            --retry-all-errors
+            --max-time 20
+            --resolve "support.rwoodylabs.org:443:${server_host}"
+          )
+
+          curl "${curl_options[@]}" "$site_url" \
+            | grep -F 'FloatingTimer' > /dev/null
+          curl "${curl_options[@]}" "${site_url}styles.css" > /dev/null
+          curl "${curl_options[@]}" "${site_url}script.js" > /dev/null
+          REMOTE
