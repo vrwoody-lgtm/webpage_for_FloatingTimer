@@ -40,6 +40,8 @@ jobs:
           required_files=(
             docs/index.html
             docs/support.html
+            docs/privacy.html
+            docs/privacy.js
             docs/styles.css
             docs/script.js
             docs/icon.png
@@ -108,6 +110,8 @@ jobs:
           managed_files=(
             index.html
             support.html
+            privacy.html
+            privacy.js
             styles.css
             script.js
             icon.png
@@ -177,4 +181,7 @@ jobs:
             | grep -F 'FloatingTimer' > /dev/null
           curl "${curl_options[@]}" "${site_url}styles.css" > /dev/null
           curl "${curl_options[@]}" "${site_url}script.js" > /dev/null
+          curl "${curl_options[@]}" "${site_url}privacy.html" \
+            | grep -F 'FloatingTimer' > /dev/null
+          curl "${curl_options[@]}" "${site_url}privacy.js" > /dev/null
           REMOTE

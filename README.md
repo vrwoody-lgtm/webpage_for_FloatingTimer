@@ -6,6 +6,7 @@ FloatingTimer 的用户支持页面，提供快速上手、常见问题、隐私
 
 - GitHub Pages: <https://vrwoody-lgtm.github.io/webpage_for_FloatingTimer/>
 - Production server: <https://support.rwoodylabs.org/floating-timer/>
+- Privacy policy: <https://support.rwoodylabs.org/floating-timer/privacy.html>
 
 The published site is generated from the `docs/` directory. GitHub Pages and the Tokyo Tencent server are both deployed automatically from `main`.
 
